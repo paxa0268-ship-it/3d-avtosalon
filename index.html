@@ -3,51 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Mega Avtosalon (60+ Mashina)</title>
+    <title>Pro Ultra 3D Auto Studio</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: #0d0e12;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
-        }
-        #canvas-container {
-            width: 100vw;
-            height: 100vh;
-        }
-        /* Boshqaruv Paneli (UI) */
-        .ui-panel {
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { overflow: hidden; background: #050508; font-family: 'Inter', sans-serif; color: #fff; }
+        #canvas-container { width: 100vw; height: 100vh; }
+        
+        .ui-container {
             position: absolute;
             top: 20px;
             left: 20px;
-            background: rgba(20, 22, 30, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 12px;
+            width: 320px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            background: rgba(12, 14, 20, 0.85);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 280px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
-        h2 { margin: 0 0 10px 0; font-size: 18px; color: #00f2fe; }
-        .control-group { margin-bottom: 15px; }
-        label { display: block; font-size: 12px; margin-bottom: 5px; color: #aaa; }
+        .ui-container::-webkit-scrollbar { width: 4px; }
+        .ui-container::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+        h2 { font-size: 20px; font-weight: 700; color: #00f2fe; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        p.subtitle { font-size: 11px; color: #777; margin-bottom: 20px; }
+
+        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin: 15px 0 8px 0; border-bottom: 1px solid #222; padding-bottom: 4px; }
+
+        .control-group { margin-bottom: 12px; }
+        label { display: block; font-size: 12px; color: #ccc; margin-bottom: 6px; }
+        
         select, input[type="range"], input[type="color"] {
-            width: 100%;
-            background: #1a1c23;
-            border: 1px solid #333;
-            color: white;
-            padding: 8px;
-            border-radius: 6px;
-            box-sizing: border-box;
+            width: 100%; background: #141620; border: 1px solid #2a2d3d;
+            color: #fff; padding: 10px; border-radius: 8px; font-size: 13px;
+            outline: none; transition: 0.3s;
         }
-        .stats {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            font-size: 12px;
-            color: #666;
+        select:focus, input:focus { border-color: #00f2fe; }
+
+        .checkbox-group { display: flex; align-items: center; justify-content: space-between; }
+        .checkbox-group input { width: auto; }
+
+        .btn-action {
+            width: 100%; background: linear-gradient(135deg, #00f2fe, #4facfe);
+            border: none; color: #000; font-weight: bold; padding: 12px;
+            border-radius: 8px; cursor: pointer; margin-top: 15px;
+            transition: 0.3s;
         }
+        .btn-action:hover { opacity: 0.9; transform: translateY(-2px); }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -56,205 +59,331 @@
 
     <div id="canvas-container"></div>
 
-    <div class="ui-panel">
-        <h2>🏎️ Avto Configurator</h2>
-        
-        <div class="control-group">
-            <label>Mashina Modeli (1 dan 60 gacha):</label>
-            <select id="carSelector"></select>
-        </div>
+    <div class="ui-container">
+        <h2>🔥 Ultra Configurator</h2>
+        <p class="subtitle">Next-Gen 3D Auto Tuning Studio</p>
 
+        <div class="section-title">1. Mashina Modeli</div>
         <div class="control-group">
-            <label>Kuzov Rangi:</label>
-            <input type="color" id="carColor" value="#ff0044">
-        </div>
-
-        <div class="control-group">
-            <label>Spoyler Turi:</label>
-            <select id="spoilerType">
-                <option value="none">Yo'q</option>
-                <option value="sport">Sport Spoyler</option>
-                <option value="GT">GT Katta Spoyler</option>
+            <label>Kuzov Turi:</label>
+            <select id="bodyStyle">
+                <option value="sedan">M-Series Sport Sedan (BMW style)</option>
+                <option value="coupe">AMG GT Coupe (Merc style)</option>
+                <option value="hyper">Hypercar SuperSport</option>
             </select>
         </div>
 
+        <div class="section-title">2. Tashqi Ko'rinish & Bo'yoq</div>
         <div class="control-group">
-            <label>G'ildirak Hajmi:</label>
-            <input type="range" id="wheelSize" min="0.7" max="1.3" step="0.05" value="1">
+            <label>Kuzov Rangi:</label>
+            <input type="color" id="paintColor" value="#0a1128">
+        </div>
+        <div class="control-group">
+            <label>Lallangan metallik (Clearcoat):</label>
+            <input type="range" id="clearcoat" min="0" max="1" step="0.05" value="1">
         </div>
 
+        <div class="section-title">3. Bamper & Aerodinamika</div>
         <div class="control-group">
-            <label>Klirens (Balandlik):</label>
-            <input type="range" id="suspensionHeight" min="0.3" max="0.8" step="0.05" value="0.5">
+            <label>Old Bamper Turi:</label>
+            <select id="frontBumper">
+                <option value="stock">Stock (Oddiy)</option>
+                <option value="sport">M-Performance / AMG</option>
+                <option value="aggressive">Aggressive Carbon Splitter</option>
+            </select>
         </div>
+        <div class="control-group">
+            <label>Spoyler:</label>
+            <select id="spoilerStyle">
+                <option value="none">Yo'q</option>
+                <option value="lip">Ducktail Lip</option>
+                <option value="gt">GT Carbon Wing</option>
+            </select>
+        </div>
+
+        <div class="section-title">4. Disk & Podveska</div>
+        <div class="control-group">
+            <label>Diska Dizayni:</label>
+            <select id="rimStyle">
+                <option value="5spoke">5-Spoke Star</option>
+                <option value="multi">Multi-Spoke BBS Style</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Diska Rangi:</label>
+            <input type="color" id="rimColor" value="#cccccc">
+        </div>
+        <div class="control-group">
+            <label>Diska Hajmi (R18 - R22):</label>
+            <input type="range" id="rimSize" min="0.8" max="1.25" step="0.05" value="1">
+        </div>
+        <div class="control-group">
+            <label>Klirens (Pasadka):</label>
+            <input type="range" id="rideHeight" min="0.2" max="0.6" step="0.02" value="0.35">
+        </div>
+
+        <div class="section-title">5. Dvigatel va Chiroqlar</div>
+        <div class="control-group checkbox-group">
+            <label for="openHood">Kapotni Ochish (Mator):</label>
+            <input type="checkbox" id="openHood">
+        </div>
+        <div class="control-group">
+            <label>Neon Tag Chiroqlari:</label>
+            <input type="color" id="neonColor" value="#00f2fe">
+        </div>
+
+        <button class="btn-action" id="randomizeBtn">🎲 Tasodifiy Tuning</button>
     </div>
 
-    <div class="stats">3D Injinerlik Rejimi | Pure JavaScript Code</div>
-
     <script>
-        // 1. Sahnani tayyorlash
+        // --- 1. SAHNA VA RENDERER SETUP ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x0d0e12, 0.03);
+        scene.background = new THREE.Color(0x060609);
+        scene.fog = new THREE.FogExp2(0x060609, 0.015);
 
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(5, 3, 7);
+        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(6, 2.5, 7);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
         container.appendChild(renderer.domElement);
 
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.maxPolarAngle = Math.PI / 2 - 0.05; // Yerdan pastga tushib ketmaslik uchun
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 - 0.01;
+        controls.minDistance = 3;
+        controls.maxDistance = 15;
 
-        // 2. Yoritish (Studio Lighting)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        // --- 2. PROFESSIONAL STUDIO LIGHTING ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
         scene.add(ambientLight);
 
-        const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        mainLight.position.set(10, 20, 10);
-        mainLight.castShadow = true;
-        scene.add(mainLight);
+        // Asosiy tepa studiya chirog'i (Soft Box)
+        const topLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        topLight.position.set(5, 10, 5);
+        topLight.castShadow = true;
+        topLight.shadow.mapSize.width = 2048;
+        topLight.shadow.mapSize.height = 2048;
+        scene.add(topLight);
 
-        const blueLight = new THREE.PointLight(0x00f2fe, 1, 10);
-        blueLight.position.set(-5, 2, -5);
-        scene.add(blueLight);
+        // Rim Light (Orqa tomondan chiroyli kontur berish uchun)
+        const rimLight = new THREE.DirectionalLight(0x4facfe, 2);
+        rimLight.position.set(-8, 5, -8);
+        scene.add(rimLight);
 
-        // Pol (Shouroom pol)
-        const floorGeo = new THREE.PlaneGeometry(100, 100);
-        const floorMat = new THREE.MeshStandardMaterial({ color: 0x111318, roughness: 0.2, metalness: 0.8 });
+        // Showroom Pol
+        const floorGeo = new THREE.PlaneGeometry(80, 80);
+        const floorMat = new THREE.MeshStandardMaterial({ 
+            color: 0x0a0b10, roughness: 0.1, metalness: 0.9 
+        });
         const floor = new THREE.Mesh(floorGeo, floorMat);
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
         scene.add(floor);
 
-        // Grid (To'r liniyalari)
-        const grid = new THREE.GridHelper(100, 50, 0x00f2fe, 0x222530);
-        grid.position.y = 0.01;
+        const grid = new THREE.GridHelper(80, 40, 0x00f2fe, 0x151822);
+        grid.position.y = 0.001;
         scene.add(grid);
 
-        // 3. 60 xil mashina generatori
-        let currentCarGroup = new THREE.Group();
-        scene.add(currentCarGroup);
+        // --- 3. MATERIAL REPO ---
+        let carGroup = new THREE.Group();
+        scene.add(carGroup);
 
-        const carSelector = document.getElementById('carSelector');
-        for (let i = 1; i <= 60; i++) {
-            const opt = document.createElement('option');
-            opt.value = i;
-            opt.innerText = `Model #${i} ${i > 40 ? '(Hypercar)' : i > 20 ? '(SUV/Offroad)' : '(Sport)'}`;
-            carSelector.appendChild(opt);
-        }
+        // Neon chiroq tayyorlash
+        const neonLight = new THREE.PointLight(0x00f2fe, 3, 6);
+        neonLight.position.set(0, 0.1, 0);
+        scene.add(neonLight);
 
-        // Procedural Mashina Yaratuvchi Funktsiya
-        function buildCar(id) {
-            scene.remove(currentCarGroup);
-            currentCarGroup = new THREE.Group();
+        // --- 4. ADVANCED CAR MESH GENERATOR ---
+        function createCar() {
+            scene.remove(carGroup);
+            carGroup = new THREE.Group();
 
-            // ID ga qarab shakllarni algoritmik o'zgartirish
-            const seed = id * 123.45;
-            const length = 2.2 + (id % 5) * 0.2;
-            const height = 0.6 + (id % 3) * 0.2;
-            const width = 1.2 + (id % 4) * 0.1;
+            const style = document.getElementById('bodyStyle').value;
+            const paintHex = document.getElementById('paintColor').value;
+            const clearcoatVal = parseFloat(document.getElementById('clearcoat').value);
+            const rimHex = document.getElementById('rimColor').value;
+            const rimSizeVal = parseFloat(document.getElementById('rimSize').value);
+            const rideHeightVal = parseFloat(document.getElementById('rideHeight').value);
+            const openHood = document.getElementById('openHood').checked;
 
-            const carColor = document.getElementById('carColor').value;
-            const bodyMat = new THREE.MeshStandardMaterial({ color: carColor, metalness: 0.8, roughness: 0.2 });
-            const glassMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.1, transmission: 0.9 });
-            const wheelMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.5 });
-            const chromeMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 1, roughness: 0.1 });
-
-            // Kuzov (Body)
-            const bodyGeo = new THREE.BoxGeometry(width, height, length);
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            body.position.y = height / 2 + 0.3;
-            body.castShadow = true;
-            currentCarGroup.add(body);
-
-            // Kabina (Top)
-            const cabinLength = length * 0.5;
-            const cabinGeo = new THREE.BoxGeometry(width * 0.85, height * 0.7, cabinLength);
-            const cabin = new THREE.Mesh(cabinGeo, glassMat);
-            cabin.position.set(0, height + 0.2, -0.1);
-            cabin.castShadow = true;
-            currentCarGroup.add(cabin);
-
-            // G'ildiraklar
-            const wheelRadius = parseFloat(document.getElementById('wheelSize').value) * 0.3;
-            const wheelGeo = new THREE.CylinderGeometry(wheelRadius, wheelRadius, 0.2, 24);
-            wheelGeo.rotateZ(Math.PI / 2);
-
-            const suspY = parseFloat(document.getElementById('suspensionHeight').value);
-            const wheelPositions = [
-                [-width/2 - 0.1, suspY, length/2 - 0.4],
-                [width/2 + 0.1, suspY, length/2 - 0.4],
-                [-width/2 - 0.1, suspY, -length/2 + 0.4],
-                [width/2 + 0.1, suspY, -length/2 + 0.4]
-            ];
-
-            wheelPositions.forEach(pos => {
-                const wheel = new THREE.Mesh(wheelGeo, wheelMat);
-                wheel.position.set(...pos);
-                wheel.castShadow = true;
-                
-                // Disk
-                const rimGeo = new THREE.CylinderGeometry(wheelRadius*0.6, wheelRadius*0.6, 0.21, 12);
-                rimGeo.rotateZ(Math.PI / 2);
-                const rim = new THREE.Mesh(rimGeo, chromeMat);
-                wheel.add(rim);
-
-                currentCarGroup.add(wheel);
+            // Materiallar
+            const bodyMaterial = new THREE.MeshPhysicalMaterial({
+                color: new THREE.Color(paintHex),
+                metalness: 0.8,
+                roughness: 0.2,
+                clearcoat: clearcoatVal,
+                clearcoatRoughness: 0.1
             });
 
-            // Spoyler
-            const spoilerType = document.getElementById('spoilerType').value;
-            if (spoilerType !== 'none') {
-                const wingWidth = spoilerType === 'GT' ? width * 1.2 : width * 0.9;
-                const wingGeo = new THREE.BoxGeometry(wingWidth, 0.05, 0.3);
-                const wing = new THREE.Mesh(wingGeo, bodyMat);
-                wing.position.set(0, height + 0.6, -length/2 + 0.2);
-                
-                // Ustunlar
-                const legGeo = new THREE.BoxGeometry(0.05, 0.3, 0.05);
-                const leg1 = new THREE.Mesh(legGeo, chromeMat);
-                leg1.position.set(-width/3, height + 0.4, -length/2 + 0.2);
-                const leg2 = leg1.clone();
-                leg2.position.x = width/3;
+            const carbonMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.4, metalness: 0.8 });
+            const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x050505, metalness: 0.1, roughness: 0, transmission: 0.9, opacity: 1, transparent: true });
+            const chromeMat = new THREE.MeshStandardMaterial({ color: 0xeeeeee, metalness: 1.0, roughness: 0.05 });
+            const rimMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(rimHex), metalness: 0.9, roughness: 0.2 });
+            const tireMat = new THREE.MeshStandardMaterial({ color: 0x181818, roughness: 0.9 });
+            const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const redLightMat = new THREE.MeshBasicMaterial({ color: 0xff0022 });
 
-                currentCarGroup.add(wing, leg1, leg2);
+            // Mashina o'lchamlari
+            let len = 4.4, w = 1.9, h = 0.9;
+            if (style === 'coupe') { len = 4.2; w = 2.0; h = 0.8; }
+            if (style === 'hyper') { len = 4.6; w = 2.1; h = 0.7; }
+
+            // 1. KUZOV / CHASSIS
+            const bodyGeo = new THREE.BoxGeometry(w, h, len);
+            const bodyMesh = new THREE.Mesh(bodyGeo, bodyMaterial);
+            bodyMesh.position.y = h/2 + rideHeightVal;
+            bodyMesh.castShadow = true;
+            carGroup.add(bodyMesh);
+
+            // Kabina / Oyna
+            const cabH = h * 0.8;
+            const cabGeo = new THREE.BoxGeometry(w * 0.85, cabH, len * 0.45);
+            const cabin = new THREE.Mesh(cabGeo, glassMat);
+            cabin.position.set(0, h + cabH/2 + rideHeightVal - 0.1, -len*0.05);
+            carGroup.add(cabin);
+
+            // 2. MATOR QISMI & KAPOT
+            const hoodLen = len * 0.3;
+            const hoodGeo = new THREE.BoxGeometry(w * 0.82, 0.05, hoodLen);
+            const hood = new THREE.Mesh(hoodGeo, bodyMaterial);
+            
+            if (openHood) {
+                // Kapot ochiq holatda
+                hood.position.set(0, h + rideHeightVal + 0.4, len*0.2);
+                hood.rotation.x = -Math.PI / 4;
+
+                // Mator (V8 / V10 Blochi)
+                const engineBlock = new THREE.Mesh(new THREE.BoxGeometry(w*0.5, 0.4, hoodLen*0.7), chromeMat);
+                engineBlock.position.set(0, h + rideHeightVal, len*0.25);
+                carGroup.add(engineBlock);
+
+                const engineCover = new THREE.Mesh(new THREE.BoxGeometry(w*0.3, 0.1, hoodLen*0.5), carbonMat);
+                engineCover.position.set(0, h + rideHeightVal + 0.2, len*0.25);
+                carGroup.add(engineCover);
+            } else {
+                hood.position.set(0, h + rideHeightVal + 0.02, len*0.25);
+            }
+            carGroup.add(hood);
+
+            // 3. OLD BAMPER & RESHETKA (BMW / MERC STYLE)
+            const bumperStyle = document.getElementById('frontBumper').value;
+            const bumperGeo = new THREE.BoxGeometry(w * 0.95, h * 0.4, 0.3);
+            const bumperMat = bumperStyle === 'aggressive' ? carbonMat : bodyMaterial;
+            const bumper = new THREE.Mesh(bumperGeo, bumperMat);
+            bumper.position.set(0, rideHeightVal + h*0.2, len/2 + 0.1);
+            carGroup.add(bumper);
+
+            // Radiator Panjarasi (BMW Kidney / Merc Grille)
+            const grilleGeo = new THREE.BoxGeometry(w*0.4, h*0.25, 0.05);
+            const grille = new THREE.Mesh(grilleGeo, carbonMat);
+            grille.position.set(0, rideHeightVal + h*0.3, len/2 + 0.26);
+            carGroup.add(grille);
+
+            // 4. FARALAR
+            const headlightGeo = new THREE.BoxGeometry(0.4, 0.1, 0.1);
+            const hlLeft = new THREE.Mesh(headlightGeo, lightMat);
+            hlLeft.position.set(-w*0.3, rideHeightVal + h*0.4, len/2 + 0.16);
+            const hlRight = hlLeft.clone();
+            hlRight.position.x = w*0.3;
+            carGroup.add(hlLeft, hlRight);
+
+            // Orqa Faralar
+            const tailLightGeo = new THREE.BoxGeometry(w*0.8, 0.08, 0.05);
+            const tailLight = new THREE.Mesh(tailLightGeo, redLightMat);
+            tailLight.position.set(0, rideHeightVal + h*0.4, -len/2 - 0.01);
+            carGroup.add(tailLight);
+
+            // 5. SPOYLER
+            const spoilerStyle = document.getElementById('spoilerStyle').value;
+            if (spoilerStyle !== 'none') {
+                const spW = spoilerStyle === 'gt' ? w * 1.1 : w * 0.8;
+                const wing = new THREE.Mesh(new THREE.BoxGeometry(spW, 0.04, 0.25), carbonMat);
+                
+                if (spoilerStyle === 'gt') {
+                    wing.position.set(0, rideHeightVal + h + 0.4, -len/2 + 0.2);
+                    const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.3, 0.1), carbonMat);
+                    leg1.position.set(-w*0.3, rideHeightVal + h + 0.2, -len/2 + 0.2);
+                    const leg2 = leg1.clone(); leg2.position.x = w*0.3;
+                    carGroup.add(wing, leg1, leg2);
+                } else {
+                    wing.position.set(0, rideHeightVal + h + 0.05, -len/2 + 0.1);
+                    carGroup.add(wing);
+                }
             }
 
-            // Farlar (Headlights)
-            const lightGeo = new THREE.BoxGeometry(0.3, 0.1, 0.1);
-            const lightMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe });
-            const lightL = new THREE.Mesh(lightGeo, lightMat);
-            lightL.position.set(-width/3, height/2 + 0.3, length/2 + 0.01);
-            const lightR = lightL.clone();
-            lightR.position.x = width/3;
-            currentCarGroup.add(lightL, lightR);
+            // 6. GILDIRAKLAR (RIMS & TIRES)
+            const rimDesign = document.getElementById('rimStyle').value;
+            const R = 0.35 * rimSizeVal;
+            const tireGeo = new THREE.CylinderGeometry(R, R, 0.22, 32);
+            tireGeo.rotateZ(Math.PI / 2);
 
-            scene.add(currentCarGroup);
+            const wheelPos = [
+                [-w/2 - 0.05, rideHeightVal + R*0.8, len*0.3],
+                [w/2 + 0.05, rideHeightVal + R*0.8, len*0.3],
+                [-w/2 - 0.05, rideHeightVal + R*0.8, -len*0.3],
+                [w/2 + 0.05, rideHeightVal + R*0.8, -len*0.3]
+            ];
+
+            wheelPos.forEach(pos => {
+                const wheelGroup = new THREE.Group();
+                const tire = new THREE.Mesh(tireGeo, tireMat);
+                tire.castShadow = true;
+                wheelGroup.add(tire);
+
+                // Disk Spokes
+                const rimCenter = new THREE.Mesh(new THREE.CylinderGeometry(R*0.7, R*0.7, 0.23, 16), rimMat);
+                rimCenter.rotateZ(Math.PI / 2);
+                wheelGroup.add(rimCenter);
+
+                const spokeCount = rimDesign === 'multi' ? 12 : 5;
+                for(let i=0; i<spokeCount; i++) {
+                    const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.24, R*0.8, 0.03), chromeMat);
+                    spoke.rotation.x = (i * Math.PI * 2) / spokeCount;
+                    wheelGroup.add(spoke);
+                }
+
+                wheelGroup.position.set(...pos);
+                carGroup.add(wheelGroup);
+            });
+
+            // Neon Rangini Yangilash
+            const neonHex = document.getElementById('neonColor').value;
+            neonLight.color = new THREE.Color(neonHex);
+
+            scene.add(carGroup);
         }
 
-        // Boshlang'ich mashinani yuklash
-        buildCar(1);
+        // --- 5. EVENTS & LISTENERS ---
+        const inputs = document.querySelectorAll('.ui-container input, .ui-container select');
+        inputs.forEach(input => input.addEventListener('input', createCar));
 
-        // Event Listener'lar (Boshqaruv elementlari uchun)
-        document.getElementById('carSelector').addEventListener('change', (e) => buildCar(e.target.value));
-        document.getElementById('carColor').addEventListener('input', () => buildCar(carSelector.value));
-        document.getElementById('spoilerType').addEventListener('change', () => buildCar(carSelector.value));
-        document.getElementById('wheelSize').addEventListener('input', () => buildCar(carSelector.value));
-        document.getElementById('suspensionHeight').addEventListener('input', () => buildCar(carSelector.value));
+        document.getElementById('randomizeBtn').addEventListener('click', () => {
+            document.getElementById('paintColor').value = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('rimColor').value = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('neonColor').value = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('rimSize').value = (Math.random() * (1.25 - 0.8) + 0.8).toFixed(2);
+            document.getElementById('rideHeight').value = (Math.random() * (0.5 - 0.2) + 0.2).toFixed(2);
+            createCar();
+        });
 
-        // Oyna hajmi o'zgarganda rezolyutsiyani moslash
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Animatsiya sikli
+        // First Run
+        createCar();
+
+        // --- 6. ANIMATION LOOP ---
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
