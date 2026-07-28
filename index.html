@@ -3,54 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Ultra 3D Auto Studio</title>
+    <title>Ultimate Pure JS 3D Hyper-Studio</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { overflow: hidden; background: #050508; font-family: 'Inter', sans-serif; color: #fff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { overflow: hidden; background: #030305; color: #fff; }
         #canvas-container { width: 100vw; height: 100vh; }
-        
-        .ui-container {
+
+        /* Modern UI Panel */
+        .ui-panel {
             position: absolute;
             top: 20px;
             left: 20px;
             width: 320px;
             max-height: calc(100vh - 40px);
             overflow-y: auto;
-            background: rgba(12, 14, 20, 0.85);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 12, 18, 0.88);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            padding: 22px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
         }
-        .ui-container::-webkit-scrollbar { width: 4px; }
-        .ui-container::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+        .ui-panel::-webkit-scrollbar { width: 4px; }
+        .ui-panel::-webkit-scrollbar-thumb { background: #00f2fe; border-radius: 4px; }
 
-        h2 { font-size: 20px; font-weight: 700; color: #00f2fe; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        p.subtitle { font-size: 11px; color: #777; margin-bottom: 20px; }
+        h2 { font-size: 20px; font-weight: 800; color: #00f2fe; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+        p.desc { font-size: 11px; color: #666; margin-bottom: 18px; }
 
-        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin: 15px 0 8px 0; border-bottom: 1px solid #222; padding-bottom: 4px; }
+        .section { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #00f2fe; margin: 16px 0 8px 0; font-weight: bold; border-bottom: 1px solid rgba(0,242,254,0.2); padding-bottom: 4px; }
 
-        .control-group { margin-bottom: 12px; }
-        label { display: block; font-size: 12px; color: #ccc; margin-bottom: 6px; }
-        
+        .control { margin-bottom: 12px; }
+        label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+
         select, input[type="range"], input[type="color"] {
-            width: 100%; background: #141620; border: 1px solid #2a2d3d;
+            width: 100%; background: #121520; border: 1px solid #252a3b;
             color: #fff; padding: 10px; border-radius: 8px; font-size: 13px;
             outline: none; transition: 0.3s;
         }
         select:focus, input:focus { border-color: #00f2fe; }
 
-        .checkbox-group { display: flex; align-items: center; justify-content: space-between; }
-        .checkbox-group input { width: auto; }
-
-        .btn-action {
+        .btn-rand {
             width: 100%; background: linear-gradient(135deg, #00f2fe, #4facfe);
             border: none; color: #000; font-weight: bold; padding: 12px;
             border-radius: 8px; cursor: pointer; margin-top: 15px;
-            transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
-        .btn-action:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-rand:hover { opacity: 0.9; transform: translateY(-2px); }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -59,91 +57,76 @@
 
     <div id="canvas-container"></div>
 
-    <div class="ui-container">
-        <h2>🔥 Ultra Configurator</h2>
-        <p class="subtitle">Next-Gen 3D Auto Tuning Studio</p>
+    <div class="ui-panel">
+        <h2>🏎️ Pro Studio 3D</h2>
+        <p class="desc">100% Pure JavaScript Procedural Engine</p>
 
-        <div class="section-title">1. Mashina Modeli</div>
-        <div class="control-group">
-            <label>Kuzov Turi:</label>
-            <select id="bodyStyle">
-                <option value="sedan">M-Series Sport Sedan (BMW style)</option>
-                <option value="coupe">AMG GT Coupe (Merc style)</option>
-                <option value="hyper">Hypercar SuperSport</option>
-            </select>
-        </div>
-
-        <div class="section-title">2. Tashqi Ko'rinish & Bo'yoq</div>
-        <div class="control-group">
+        <div class="section">1. Kuzov & Bo'yoq</div>
+        <div class="control">
             <label>Kuzov Rangi:</label>
-            <input type="color" id="paintColor" value="#0a1128">
+            <input type="color" id="paintColor" value="#0a1931">
         </div>
-        <div class="control-group">
-            <label>Lallangan metallik (Clearcoat):</label>
+        <div class="control">
+            <label>Lak Yarqirashi (Clearcoat):</label>
             <input type="range" id="clearcoat" min="0" max="1" step="0.05" value="1">
         </div>
 
-        <div class="section-title">3. Bamper & Aerodinamika</div>
-        <div class="control-group">
-            <label>Old Bamper Turi:</label>
-            <select id="frontBumper">
-                <option value="stock">Stock (Oddiy)</option>
-                <option value="sport">M-Performance / AMG</option>
-                <option value="aggressive">Aggressive Carbon Splitter</option>
+        <div class="section">2. Aerodinamika & Bumper</div>
+        <div class="control">
+            <label>Old Bamper Splitter:</label>
+            <select id="frontSplitter">
+                <option value="carbon">Carbon Fiber Aero</option>
+                <option value="stock">Standard Factory</option>
             </select>
         </div>
-        <div class="control-group">
-            <label>Spoyler:</label>
-            <select id="spoilerStyle">
-                <option value="none">Yo'q</option>
-                <option value="lip">Ducktail Lip</option>
+        <div class="control">
+            <label>Orqa Spoyler:</label>
+            <select id="spoiler">
                 <option value="gt">GT Carbon Wing</option>
+                <option value="ducktail">Ducktail Lip</option>
+                <option value="none">Yo'q</option>
             </select>
         </div>
 
-        <div class="section-title">4. Disk & Podveska</div>
-        <div class="control-group">
+        <div class="section">3. Diska & Tormozlar</div>
+        <div class="control">
             <label>Diska Dizayni:</label>
             <select id="rimStyle">
-                <option value="5spoke">5-Spoke Star</option>
-                <option value="multi">Multi-Spoke BBS Style</option>
+                <option value="m_sport">BMW M-Style Multi-Spoke</option>
+                <option value="star">5-Spoke Competition</option>
             </select>
         </div>
-        <div class="control-group">
-            <label>Diska Rangi:</label>
-            <input type="color" id="rimColor" value="#cccccc">
+        <div class="control">
+            <label>Tormoz Supporti (Caliper):</label>
+            <input type="color" id="caliperColor" value="#ff0000">
         </div>
-        <div class="control-group">
-            <label>Diska Hajmi (R18 - R22):</label>
-            <input type="range" id="rimSize" min="0.8" max="1.25" step="0.05" value="1">
+        <div class="control">
+            <label>Diska Radiusi (R18 - R22):</label>
+            <input type="range" id="rimRadius" min="0.8" max="1.3" step="0.05" value="1.05">
         </div>
-        <div class="control-group">
+        <div class="control">
             <label>Klirens (Pasadka):</label>
-            <input type="range" id="rideHeight" min="0.2" max="0.6" step="0.02" value="0.35">
+            <input type="range" id="rideHeight" min="0.15" max="0.5" step="0.02" value="0.25">
         </div>
 
-        <div class="section-title">5. Dvigatel va Chiroqlar</div>
-        <div class="control-group checkbox-group">
-            <label for="openHood">Kapotni Ochish (Mator):</label>
-            <input type="checkbox" id="openHood">
-        </div>
-        <div class="control-group">
+        <div class="section">4. Effektlar & Neon</div>
+        <div class="control">
             <label>Neon Tag Chiroqlari:</label>
             <input type="color" id="neonColor" value="#00f2fe">
         </div>
 
-        <button class="btn-action" id="randomizeBtn">🎲 Tasodifiy Tuning</button>
+        <button class="btn-rand" id="randomize">🎲 Random Custom Tuning</button>
     </div>
 
     <script>
-        // --- 1. SAHNA VA RENDERER SETUP ---
+        // --- 1. SETUP SCENE, CAMERA & RENDERER ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x060609);
-        scene.fog = new THREE.FogExp2(0x060609, 0.015);
+        scene.background = new THREE.Color(0x030305);
+        scene.fog = new THREE.FogExp2(0x030305, 0.015);
 
-        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(6, 2.5, 7);
+        const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(6, 2, 7);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -151,7 +134,7 @@
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
+        renderer.toneMappingExposure = 1.3;
         container.appendChild(renderer.domElement);
 
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -159,193 +142,195 @@
         controls.dampingFactor = 0.05;
         controls.maxPolarAngle = Math.PI / 2 - 0.01;
         controls.minDistance = 3;
-        controls.maxDistance = 15;
+        controls.maxDistance = 14;
 
-        // --- 2. PROFESSIONAL STUDIO LIGHTING ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-        scene.add(ambientLight);
+        // --- 2. LIGHTING & SHOWROOM FLOOR ---
+        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambient);
 
-        // Asosiy tepa studiya chirog'i (Soft Box)
-        const topLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        topLight.position.set(5, 10, 5);
-        topLight.castShadow = true;
-        topLight.shadow.mapSize.width = 2048;
-        topLight.shadow.mapSize.height = 2048;
-        scene.add(topLight);
+        // Main Studio Spot Light
+        const mainLight = new THREE.DirectionalLight(0xffffff, 1.8);
+        mainLight.position.set(6, 12, 6);
+        mainLight.castShadow = true;
+        mainLight.shadow.mapSize.width = 2048;
+        mainLight.shadow.mapSize.height = 2048;
+        scene.add(mainLight);
 
-        // Rim Light (Orqa tomondan chiroyli kontur berish uchun)
-        const rimLight = new THREE.DirectionalLight(0x4facfe, 2);
-        rimLight.position.set(-8, 5, -8);
+        // Blue Back Rim Light
+        const rimLight = new THREE.DirectionalLight(0x00f2fe, 1.5);
+        rimLight.position.set(-6, 4, -6);
         scene.add(rimLight);
 
-        // Showroom Pol
-        const floorGeo = new THREE.PlaneGeometry(80, 80);
-        const floorMat = new THREE.MeshStandardMaterial({ 
-            color: 0x0a0b10, roughness: 0.1, metalness: 0.9 
-        });
+        // Showroom Floor
+        const floorGeo = new THREE.PlaneGeometry(60, 60);
+        const floorMat = new THREE.MeshStandardMaterial({ color: 0x07080c, roughness: 0.15, metalness: 0.85 });
         const floor = new THREE.Mesh(floorGeo, floorMat);
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
         scene.add(floor);
 
-        const grid = new THREE.GridHelper(80, 40, 0x00f2fe, 0x151822);
+        const grid = new THREE.GridHelper(60, 30, 0x00f2fe, 0x111420);
         grid.position.y = 0.001;
         scene.add(grid);
 
-        // --- 3. MATERIAL REPO ---
+        // Neon Light Under Car
+        const neonLight = new THREE.PointLight(0x00f2fe, 3.5, 5);
+        neonLight.position.set(0, 0.08, 0);
+        scene.add(neonLight);
+
+        // --- 3. PROCEDURAL HIGH-DETAIL MESH ENGINE ---
         let carGroup = new THREE.Group();
         scene.add(carGroup);
 
-        // Neon chiroq tayyorlash
-        const neonLight = new THREE.PointLight(0x00f2fe, 3, 6);
-        neonLight.position.set(0, 0.1, 0);
-        scene.add(neonLight);
-
-        // --- 4. ADVANCED CAR MESH GENERATOR ---
-        function createCar() {
+        function buildAdvancedCar() {
             scene.remove(carGroup);
             carGroup = new THREE.Group();
 
-            const style = document.getElementById('bodyStyle').value;
+            // Values from UI
             const paintHex = document.getElementById('paintColor').value;
             const clearcoatVal = parseFloat(document.getElementById('clearcoat').value);
-            const rimHex = document.getElementById('rimColor').value;
-            const rimSizeVal = parseFloat(document.getElementById('rimSize').value);
-            const rideHeightVal = parseFloat(document.getElementById('rideHeight').value);
-            const openHood = document.getElementById('openHood').checked;
+            const rimScale = parseFloat(document.getElementById('rimRadius').value);
+            const rideH = parseFloat(document.getElementById('rideHeight').value);
+            const caliperHex = document.getElementById('caliperColor').value;
+            const frontSplitter = document.getElementById('frontSplitter').value;
+            const spoilerStyle = document.getElementById('spoiler').value;
+            const rimStyle = document.getElementById('rimStyle').value;
 
-            // Materiallar
-            const bodyMaterial = new THREE.MeshPhysicalMaterial({
+            // Advanced Materials
+            const bodyMat = new THREE.MeshPhysicalMaterial({
                 color: new THREE.Color(paintHex),
-                metalness: 0.8,
-                roughness: 0.2,
+                metalness: 0.85,
+                roughness: 0.15,
                 clearcoat: clearcoatVal,
-                clearcoatRoughness: 0.1
+                clearcoatRoughness: 0.05
             });
 
-            const carbonMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.4, metalness: 0.8 });
-            const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x050505, metalness: 0.1, roughness: 0, transmission: 0.9, opacity: 1, transparent: true });
-            const chromeMat = new THREE.MeshStandardMaterial({ color: 0xeeeeee, metalness: 1.0, roughness: 0.05 });
-            const rimMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(rimHex), metalness: 0.9, roughness: 0.2 });
-            const tireMat = new THREE.MeshStandardMaterial({ color: 0x181818, roughness: 0.9 });
-            const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const redLightMat = new THREE.MeshBasicMaterial({ color: 0xff0022 });
+            const carbonMat = new THREE.MeshStandardMaterial({ color: 0x111113, roughness: 0.3, metalness: 0.7 });
+            const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x020202, metalness: 0.1, roughness: 0, transmission: 0.95, transparent: true });
+            const chromeMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 1.0, roughness: 0.05 });
+            const brakeMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(caliperHex), metalness: 0.5, roughness: 0.2 });
+            const discMat = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.9, roughness: 0.3 });
+            const tireMat = new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.85 });
 
-            // Mashina o'lchamlari
-            let len = 4.4, w = 1.9, h = 0.9;
-            if (style === 'coupe') { len = 4.2; w = 2.0; h = 0.8; }
-            if (style === 'hyper') { len = 4.6; w = 2.1; h = 0.7; }
+            const len = 4.5, w = 2.0, h = 0.85;
 
-            // 1. KUZOV / CHASSIS
-            const bodyGeo = new THREE.BoxGeometry(w, h, len);
-            const bodyMesh = new THREE.Mesh(bodyGeo, bodyMaterial);
-            bodyMesh.position.y = h/2 + rideHeightVal;
-            bodyMesh.castShadow = true;
-            carGroup.add(bodyMesh);
+            // 1. MAIN BODY CHASSIS
+            const mainBodyGeo = new THREE.BoxGeometry(w, h, len);
+            const mainBody = new THREE.Mesh(mainBodyGeo, bodyMat);
+            mainBody.position.y = h/2 + rideH;
+            mainBody.castShadow = true;
+            carGroup.add(mainBody);
 
-            // Kabina / Oyna
-            const cabH = h * 0.8;
-            const cabGeo = new THREE.BoxGeometry(w * 0.85, cabH, len * 0.45);
+            // 2. CABIN & GLASS
+            const cabH = h * 0.75;
+            const cabGeo = new THREE.BoxGeometry(w * 0.84, cabH, len * 0.45);
             const cabin = new THREE.Mesh(cabGeo, glassMat);
-            cabin.position.set(0, h + cabH/2 + rideHeightVal - 0.1, -len*0.05);
+            cabin.position.set(0, h + cabH/2 + rideH - 0.08, -len * 0.05);
             carGroup.add(cabin);
 
-            // 2. MATOR QISMI & KAPOT
-            const hoodLen = len * 0.3;
-            const hoodGeo = new THREE.BoxGeometry(w * 0.82, 0.05, hoodLen);
-            const hood = new THREE.Mesh(hoodGeo, bodyMaterial);
-            
-            if (openHood) {
-                // Kapot ochiq holatda
-                hood.position.set(0, h + rideHeightVal + 0.4, len*0.2);
-                hood.rotation.x = -Math.PI / 4;
-
-                // Mator (V8 / V10 Blochi)
-                const engineBlock = new THREE.Mesh(new THREE.BoxGeometry(w*0.5, 0.4, hoodLen*0.7), chromeMat);
-                engineBlock.position.set(0, h + rideHeightVal, len*0.25);
-                carGroup.add(engineBlock);
-
-                const engineCover = new THREE.Mesh(new THREE.BoxGeometry(w*0.3, 0.1, hoodLen*0.5), carbonMat);
-                engineCover.position.set(0, h + rideHeightVal + 0.2, len*0.25);
-                carGroup.add(engineCover);
-            } else {
-                hood.position.set(0, h + rideHeightVal + 0.02, len*0.25);
-            }
+            // 3. FRONT HOOD & BMW KIDNEY GRILLE
+            const hoodGeo = new THREE.BoxGeometry(w * 0.82, 0.06, len * 0.32);
+            const hood = new THREE.Mesh(hoodGeo, bodyMat);
+            hood.position.set(0, h + rideH + 0.02, len * 0.25);
             carGroup.add(hood);
 
-            // 3. OLD BAMPER & RESHETKA (BMW / MERC STYLE)
-            const bumperStyle = document.getElementById('frontBumper').value;
-            const bumperGeo = new THREE.BoxGeometry(w * 0.95, h * 0.4, 0.3);
-            const bumperMat = bumperStyle === 'aggressive' ? carbonMat : bodyMaterial;
-            const bumper = new THREE.Mesh(bumperGeo, bumperMat);
-            bumper.position.set(0, rideHeightVal + h*0.2, len/2 + 0.1);
-            carGroup.add(bumper);
+            // Grille Frame
+            const grilleFrame = new THREE.Mesh(new THREE.BoxGeometry(w * 0.42, h * 0.3, 0.08), chromeMat);
+            grilleFrame.position.set(0, rideH + h * 0.4, len / 2 + 0.04);
+            carGroup.add(grilleFrame);
 
-            // Radiator Panjarasi (BMW Kidney / Merc Grille)
-            const grilleGeo = new THREE.BoxGeometry(w*0.4, h*0.25, 0.05);
-            const grille = new THREE.Mesh(grilleGeo, carbonMat);
-            grille.position.set(0, rideHeightVal + h*0.3, len/2 + 0.26);
-            carGroup.add(grille);
+            // Grille Mesh
+            const grilleMesh = new THREE.Mesh(new THREE.BoxGeometry(w * 0.38, h * 0.26, 0.09), carbonMat);
+            grilleMesh.position.set(0, rideH + h * 0.4, len / 2 + 0.045);
+            carGroup.add(grilleMesh);
 
-            // 4. FARALAR
-            const headlightGeo = new THREE.BoxGeometry(0.4, 0.1, 0.1);
-            const hlLeft = new THREE.Mesh(headlightGeo, lightMat);
-            hlLeft.position.set(-w*0.3, rideHeightVal + h*0.4, len/2 + 0.16);
-            const hlRight = hlLeft.clone();
-            hlRight.position.x = w*0.3;
-            carGroup.add(hlLeft, hlRight);
-
-            // Orqa Faralar
-            const tailLightGeo = new THREE.BoxGeometry(w*0.8, 0.08, 0.05);
-            const tailLight = new THREE.Mesh(tailLightGeo, redLightMat);
-            tailLight.position.set(0, rideHeightVal + h*0.4, -len/2 - 0.01);
-            carGroup.add(tailLight);
-
-            // 5. SPOYLER
-            const spoilerStyle = document.getElementById('spoilerStyle').value;
-            if (spoilerStyle !== 'none') {
-                const spW = spoilerStyle === 'gt' ? w * 1.1 : w * 0.8;
-                const wing = new THREE.Mesh(new THREE.BoxGeometry(spW, 0.04, 0.25), carbonMat);
-                
-                if (spoilerStyle === 'gt') {
-                    wing.position.set(0, rideHeightVal + h + 0.4, -len/2 + 0.2);
-                    const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.3, 0.1), carbonMat);
-                    leg1.position.set(-w*0.3, rideHeightVal + h + 0.2, -len/2 + 0.2);
-                    const leg2 = leg1.clone(); leg2.position.x = w*0.3;
-                    carGroup.add(wing, leg1, leg2);
-                } else {
-                    wing.position.set(0, rideHeightVal + h + 0.05, -len/2 + 0.1);
-                    carGroup.add(wing);
-                }
+            // 4. FRONT & REAR BUMPERS
+            if (frontSplitter === 'carbon') {
+                const splitter = new THREE.Mesh(new THREE.BoxGeometry(w * 1.05, 0.04, 0.4), carbonMat);
+                splitter.position.set(0, rideH + 0.02, len / 2 + 0.15);
+                carGroup.add(splitter);
             }
 
-            // 6. GILDIRAKLAR (RIMS & TIRES)
-            const rimDesign = document.getElementById('rimStyle').value;
-            const R = 0.35 * rimSizeVal;
-            const tireGeo = new THREE.CylinderGeometry(R, R, 0.22, 32);
+            // Rear Diffuser & Exhaust Pipes
+            const diffuser = new THREE.Mesh(new THREE.BoxGeometry(w * 0.9, h * 0.3, 0.2), carbonMat);
+            diffuser.position.set(0, rideH + h * 0.15, -len / 2 - 0.05);
+            carGroup.add(diffuser);
+
+            const exhaustGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.2, 16);
+            exhaustGeo.rotateX(Math.PI / 2);
+            const ex1 = new THREE.Mesh(exhaustGeo, chromeMat);
+            ex1.position.set(-w * 0.3, rideH + h * 0.15, -len / 2 - 0.12);
+            const ex2 = ex1.clone(); ex2.position.x = -w * 0.22;
+            const ex3 = ex1.clone(); ex3.position.x = w * 0.22;
+            const ex4 = ex1.clone(); ex4.position.x = w * 0.3;
+            carGroup.add(ex1, ex2, ex3, ex4);
+
+            // 5. LIGHTS (LED HEADLIGHTS & TAILLIGHTS)
+            const headlightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const hlL = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.08, 0.1), headlightMat);
+            hlL.position.set(-w * 0.28, rideH + h * 0.52, len / 2 + 0.02);
+            const hlR = hlL.clone(); hlR.position.x = w * 0.28;
+            carGroup.add(hlL, hlR);
+
+            const tailMat = new THREE.MeshBasicMaterial({ color: 0xff0033 });
+            const tailLight = new THREE.Mesh(new THREE.BoxGeometry(w * 0.85, 0.06, 0.05), tailMat);
+            tailLight.position.set(0, rideH + h * 0.55, -len / 2 - 0.01);
+            carGroup.add(tailLight);
+
+            // 6. SPOILER
+            if (spoilerStyle === 'gt') {
+                const wing = new THREE.Mesh(new THREE.BoxGeometry(w * 1.1, 0.04, 0.28), carbonMat);
+                wing.position.set(0, rideH + h + 0.35, -len / 2 + 0.2);
+                
+                const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.3, 0.08), carbonMat);
+                leg1.position.set(-w * 0.3, rideH + h + 0.15, -len / 2 + 0.2);
+                const leg2 = leg1.clone(); leg2.position.x = w * 0.3;
+                carGroup.add(wing, leg1, leg2);
+            } else if (spoilerStyle === 'ducktail') {
+                const duck = new THREE.Mesh(new THREE.BoxGeometry(w * 0.82, 0.08, 0.15), carbonMat);
+                duck.position.set(0, rideH + h + 0.02, -len / 2 + 0.1);
+                duck.rotation.x = -Math.PI / 8;
+                carGroup.add(duck);
+            }
+
+            // 7. WHEELS & BRAKE CALIPERS
+            const R = 0.36 * rimScale;
+            const tireGeo = new THREE.CylinderGeometry(R, R, 0.24, 32);
             tireGeo.rotateZ(Math.PI / 2);
 
-            const wheelPos = [
-                [-w/2 - 0.05, rideHeightVal + R*0.8, len*0.3],
-                [w/2 + 0.05, rideHeightVal + R*0.8, len*0.3],
-                [-w/2 - 0.05, rideHeightVal + R*0.8, -len*0.3],
-                [w/2 + 0.05, rideHeightVal + R*0.8, -len*0.3]
+            const wheelPositions = [
+                [-w / 2 - 0.04, rideH + R * 0.8, len * 0.3],
+                [w / 2 + 0.04, rideH + R * 0.8, len * 0.3],
+                [-w / 2 - 0.04, rideH + R * 0.8, -len * 0.3],
+                [w / 2 + 0.04, rideH + R * 0.8, -len * 0.3]
             ];
 
-            wheelPos.forEach(pos => {
+            wheelPositions.forEach(pos => {
                 const wheelGroup = new THREE.Group();
+                
+                // Rubber Tire
                 const tire = new THREE.Mesh(tireGeo, tireMat);
                 tire.castShadow = true;
                 wheelGroup.add(tire);
 
-                // Disk Spokes
-                const rimCenter = new THREE.Mesh(new THREE.CylinderGeometry(R*0.7, R*0.7, 0.23, 16), rimMat);
+                // Brake Disc & Caliper
+                const discGeo = new THREE.CylinderGeometry(R * 0.68, R * 0.68, 0.05, 24);
+                discGeo.rotateZ(Math.PI / 2);
+                const disc = new THREE.Mesh(discGeo, discMat);
+                
+                const caliperGeo = new THREE.BoxGeometry(0.08, R * 0.4, R * 0.3);
+                const caliper = new THREE.Mesh(caliperGeo, brakeMat);
+                caliper.position.set(0, R * 0.35, 0);
+                wheelGroup.add(disc, caliper);
+
+                // Rim Design
+                const rimCenter = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.3, R * 0.3, 0.25, 16), chromeMat);
                 rimCenter.rotateZ(Math.PI / 2);
                 wheelGroup.add(rimCenter);
 
-                const spokeCount = rimDesign === 'multi' ? 12 : 5;
-                for(let i=0; i<spokeCount; i++) {
-                    const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.24, R*0.8, 0.03), chromeMat);
+                const spokeCount = rimStyle === 'm_sport' ? 10 : 5;
+                for (let i = 0; i < spokeCount; i++) {
+                    const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.25, R * 0.8, 0.025), chromeMat);
                     spoke.rotation.x = (i * Math.PI * 2) / spokeCount;
                     wheelGroup.add(spoke);
                 }
@@ -354,24 +339,23 @@
                 carGroup.add(wheelGroup);
             });
 
-            // Neon Rangini Yangilash
-            const neonHex = document.getElementById('neonColor').value;
-            neonLight.color = new THREE.Color(neonHex);
+            // Update Neon Light Color
+            neonLight.color = new THREE.Color(document.getElementById('neonColor').value);
 
             scene.add(carGroup);
         }
 
-        // --- 5. EVENTS & LISTENERS ---
-        const inputs = document.querySelectorAll('.ui-container input, .ui-container select');
-        inputs.forEach(input => input.addEventListener('input', createCar));
+        // --- 4. LISTENERS & RANDOMIZER ---
+        const uiElements = document.querySelectorAll('.ui-panel input, .ui-panel select');
+        uiElements.forEach(el => el.addEventListener('input', buildAdvancedCar));
 
-        document.getElementById('randomizeBtn').addEventListener('click', () => {
+        document.getElementById('randomize').addEventListener('click', () => {
             document.getElementById('paintColor').value = '#' + Math.floor(Math.random()*16777215).toString(16);
-            document.getElementById('rimColor').value = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('caliperColor').value = '#' + Math.floor(Math.random()*16777215).toString(16);
             document.getElementById('neonColor').value = '#' + Math.floor(Math.random()*16777215).toString(16);
-            document.getElementById('rimSize').value = (Math.random() * (1.25 - 0.8) + 0.8).toFixed(2);
-            document.getElementById('rideHeight').value = (Math.random() * (0.5 - 0.2) + 0.2).toFixed(2);
-            createCar();
+            document.getElementById('rimRadius').value = (Math.random() * (1.3 - 0.8) + 0.8).toFixed(2);
+            document.getElementById('rideHeight').value = (Math.random() * (0.4 - 0.15) + 0.15).toFixed(2);
+            buildAdvancedCar();
         });
 
         window.addEventListener('resize', () => {
@@ -380,10 +364,10 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // First Run
-        createCar();
+        // Init
+        buildAdvancedCar();
 
-        // --- 6. ANIMATION LOOP ---
+        // --- 5. ANIMATION LOOP ---
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
